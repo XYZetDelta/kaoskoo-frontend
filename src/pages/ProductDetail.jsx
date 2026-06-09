@@ -16,8 +16,7 @@ export default function ProductDetail() {
     setProduct(data)
   }
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => {
+  useEffect(() => {  // eslint-disable-next-line react-hooks/exhaustive-deps
     loadProduct()
   }, [])
 
