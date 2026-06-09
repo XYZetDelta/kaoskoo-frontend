@@ -2,10 +2,10 @@ import { useEffect, useState } from "react"
 import { Navigate } from "react-router-dom"
 
 export default function ProtectedRoute({ children }) {
-  const [status, setStatus] = useState("loading") // "loading" | "ok" | "unauthorized"
+  const [status, setStatus] = useState("loading")
 
   useEffect(() => {
-    fetch("${process.env.REACT_APP_API_URL}/api/admin/me", {
+    fetch(`${process.env.REACT_APP_API_URL}/api/admin/me`, {
       credentials: "include"
     })
     .then(res => {
@@ -18,7 +18,7 @@ export default function ProtectedRoute({ children }) {
     .catch(() => setStatus("unauthorized"))
   }, [])
 
-  if (status === "loading") return null // atau bisa loading spinner
+  if (status === "loading") return null
   if (status === "unauthorized") return <Navigate to="/admin-login" replace />
   return children
 }

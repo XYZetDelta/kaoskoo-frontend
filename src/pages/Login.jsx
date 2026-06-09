@@ -6,49 +6,44 @@ export default function AdminLogin() {
   const [password, setPassword] = useState("")
   const navigate = useNavigate()
 
-async function handleSubmit(e) {
-  e.preventDefault()
+  async function handleSubmit(e) {
+    e.preventDefault()
 
-  try {
-    const response = await fetch("${process.env.REACT_APP_API_URL}/api/admin/login", {
-      method: "POST",
-      credentials: "include",  // ← tambah ini
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username, password }),
-    })
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/admin/login`, {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
+      })
 
-    const data = await response.json()
+      const data = await response.json()
 
-    if (!response.ok) {
-      alert(data.message || "Login gagal!")
-      return
+      if (!response.ok) {
+        alert(data.message || "Login gagal!")
+        return
+      }
+
+      navigate("/admin")
+
+    } catch (error) {
+      console.error(error)
+      alert("Terjadi kesalahan server")
     }
-
-    // ← hapus blok if (data.token), langsung navigate
-    navigate("/admin")
-
-  } catch (error) {
-    console.error(error)
-    alert("Terjadi kesalahan server")
   }
-}
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center">
       <div className="w-full max-w-md">
 
-        {/* Card */}
         <div className="bg-white/5 backdrop-blur-lg border border-white/10 shadow-2xl rounded-2xl p-8">
 
-          {/* Title */}
           <h2 className="text-3xl font-bold text-white text-center mb-6">
             Admin Login
           </h2>
 
-          {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-5">
 
-            {/* Username */}
             <div>
               <input
                 type="text"
@@ -60,7 +55,6 @@ async function handleSubmit(e) {
               />
             </div>
 
-            {/* Password */}
             <div>
               <input
                 type="password"
@@ -72,7 +66,6 @@ async function handleSubmit(e) {
               />
             </div>
 
-            {/* Button */}
             <button
               type="submit"
               className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 rounded-xl transition duration-300 shadow-lg hover:shadow-indigo-500/30"
@@ -83,9 +76,8 @@ async function handleSubmit(e) {
           </form>
         </div>
 
-        {/* Footer */}
         <p className="text-center text-slate-400 text-sm mt-6">
-          © 2026 Admin Panel
+          © 2026 Kaoskoo
         </p>
 
       </div>

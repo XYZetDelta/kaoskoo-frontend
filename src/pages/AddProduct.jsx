@@ -1,6 +1,8 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 
+const API_URL = process.env.REACT_APP_API_URL
+
 export default function AddProduct() {
   const navigate = useNavigate()
 
@@ -59,13 +61,11 @@ export default function AddProduct() {
       formData.append("image", file)
     })
 
-    const response = await fetch("${process.env.REACT_APP_API_URL}/api/products", {
-    method: "POST",
-    credentials: "include",
-    body: formData,
-  })
-
-    
+    const response = await fetch(`${API_URL}/api/products`, {
+      method: "POST",
+      credentials: "include",
+      body: formData,
+    })
 
     if (!response.ok) {
       alert("Terjadi kesalahan saat upload Produk")

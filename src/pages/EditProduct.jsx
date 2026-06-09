@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { useParams, useNavigate } from "react-router-dom"
 
-const API_URL = "${process.env.REACT_APP_API_URL}/api/products"
+const API_URL = process.env.REACT_APP_API_URL
 
 export default function EditProduct() {
   const { id } = useParams()
@@ -15,7 +15,7 @@ export default function EditProduct() {
   const [dragIndex, setDragIndex] = useState(null)
 
   useEffect(() => {
-    fetch(`${API_URL}/${id}`)
+    fetch(`${API_URL}/api/products/${id}`)
       .then(res => res.json())
       .then(data => {
         setName(data.name)
@@ -76,13 +76,11 @@ export default function EditProduct() {
     formData.append("price", price)
     formData.append("description", description)
 
-    // Kirim urutan final ke backend
     const order = images.map((img) =>
       img.type === "old" ? img.filename : "__new__"
     )
     formData.append("order", JSON.stringify(order))
 
-    // Kirim keepImages dan file baru
     images.forEach((img) => {
       if (img.type === "old") {
         formData.append("keepImages", img.filename)
@@ -91,11 +89,11 @@ export default function EditProduct() {
       }
     })
 
-    const response = await fetch("${process.env.REACT_APP_API_URL}/api/products", {
-    method: "POST",
-    credentials: "include",
-    body: formData,
-  })
+    const response = await fetch(`${API_URL}/api/products/${id}`, {
+      method: "PUT",
+      credentials: "include",
+      body: formData,
+    })
 
     if (!response.ok) {
       alert("Terjadi kesalahan saat update produk")
@@ -164,7 +162,7 @@ export default function EditProduct() {
                     <img
                       src={
                         img.type === "old"
-                          ? `${process.env.REACT_APP_API_URL}/uploads/${img.filename}`
+                          ? `${API_URL}/uploads/${img.filename}`
                           : img.preview
                       }
                       alt={`img-${index}`}
