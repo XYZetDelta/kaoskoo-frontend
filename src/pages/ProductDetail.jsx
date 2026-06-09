@@ -1,5 +1,7 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, useCallback } from "react"
 import { useParams, useNavigate } from "react-router-dom"
+
+const API_URL = process.env.REACT_APP_API_URL
 
 export default function ProductDetail() {
   const { id } = useParams()
@@ -10,15 +12,15 @@ export default function ProductDetail() {
   const [qty, setQty] = useState(1)
   const [activeIndex, setActiveIndex] = useState(0)
 
-  async function loadProduct() {
-    const res = await fetch(`process.env.REACT_APP_API_URL/api/products/${id}`)
+  const loadProduct = useCallback(async () => {
+    const res = await fetch(`${API_URL}/api/products/${id}`)
     const data = await res.json()
     setProduct(data)
-  }
+  }, [id])
 
-  useEffect(() => {  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => {
     loadProduct()
-  }, [])
+  }, [loadProduct])
 
   function prevImage() {
     setActiveIndex((prev) => (prev === 0 ? product.images.length - 1 : prev - 1))
@@ -57,12 +59,11 @@ export default function ProductDetail() {
             {images.length > 0 ? (
               <>
                 <img
-                  src={`process.env.REACT_APP_API_URL/uploads/${images[activeIndex]}`}
+                  src={`${API_URL}/uploads/${images[activeIndex]}`}
                   className="w-full max-h-[400px] object-contain"
                   alt={product.name}
                 />
 
-                {/* Tombol prev/next hanya muncul kalau gambar lebih dari 1 */}
                 {images.length > 1 && (
                   <>
                     <button
@@ -80,7 +81,6 @@ export default function ProductDetail() {
                   </>
                 )}
 
-                {/* Counter */}
                 {images.length > 1 && (
                   <div className="absolute bottom-3 right-4 text-xs text-zinc-400">
                     {activeIndex + 1} / {images.length}
@@ -115,7 +115,7 @@ export default function ProductDetail() {
               {images.map((img, i) => (
                 <img
                   key={i}
-                  src={`process.env.REACT_APP_API_URL/uploads/${img}`}
+                  src={`${API_URL}/uploads/${img}`}
                   onClick={() => setActiveIndex(i)}
                   className={`w-14 h-14 object-cover rounded-lg cursor-pointer flex-shrink-0 transition-all ${
                     i === activeIndex

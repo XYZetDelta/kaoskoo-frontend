@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, useCallback } from "react"
 import { useNavigate } from "react-router-dom"
 
-const API_URL = "process.env.REACT_APP_API_URL/api/products"
+const API_URL = process.env.REACT_APP_API_URL
 
 export default function AdminDashboard() {
   const navigate = useNavigate()
@@ -9,22 +9,9 @@ export default function AdminDashboard() {
   const [currentPage, setCurrentPage] = useState(1)
   const [totalPages, setTotalPages] = useState(1)
 
-  useEffect(() => { // eslint-disable-next-line react-hooks/exhaustive-deps
-    fetch("process.env.REACT_APP_API_URL/api/admin/me", {
-      credentials: "include"
-    })
-    .then(res => {
-      if (res.status === 403) {
-        navigate("/admin-login")
-      } else {
-        fetchProducts(1)
-      }
-    })
-  }, [])
-
-  async function fetchProducts(page = 1) {
+  const fetchProducts = useCallback(async (page = 1) => {
     try {
-      const res = await fetch(`${API_URL}?page=${page}&limit=12`, {
+      const res = await fetch(`${API_URL}/api/products?page=${page}&limit=12`, {
         credentials: "include"
       })
 
@@ -43,10 +30,23 @@ export default function AdminDashboard() {
     } catch (error) {
       console.error(error)
     }
-  }
+  }, [navigate])
+
+  useEffect(() => {
+    fetch(`${API_URL}/api/admin/me`, {
+      credentials: "include"
+    })
+    .then(res => {
+      if (res.status === 403) {
+        navigate("/admin-login")
+      } else {
+        fetchProducts(1)
+      }
+    })
+  }, [navigate, fetchProducts])
 
   async function deleteProduct(id) {
-    await fetch(`${API_URL}/${id}`, {
+    await fetch(`${API_URL}/api/products/${id}`, {
       method: "DELETE",
       credentials: "include"
     })
@@ -54,7 +54,7 @@ export default function AdminDashboard() {
   }
 
   async function logout() {
-    await fetch("process.env.REACT_APP_API_URL/api/admin/logout", {
+    await fetch(`${API_URL}/api/admin/logout`, {
       method: "POST",
       credentials: "include"
     })
@@ -101,7 +101,7 @@ export default function AdminDashboard() {
                 <td className="p-3 border">
                   {p.images && p.images.length > 0 ? (
                     <img
-                      src={`process.env.REACT_APP_API_URL/uploads/${p.images[0]}`}
+                      src={`${API_URL}/uploads/${p.images[0]}`}
                       alt={p.name}
                       className="w-16 h-16 object-cover mx-auto rounded"
                     />
