@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 
-const API_URL = "process.env.REACT_APP_API_URL/api/products"
+const API_URL = `${process.env.REACT_APP_API_URL}/api/products`
 
 export default function Home() {
   const [products, setProducts] = useState([])
@@ -183,7 +183,7 @@ function ProductCard({ product, addToCart }) {
     <div className="bg-zinc-800 p-4 rounded-xl shadow-lg">
       {product.images && product.images.length > 0 && (
         <img
-          src={`process.env.REACT_APP_API_URL/uploads/${product.images[0]}`}
+          src={`${process.env.REACT_APP_API_URL}/uploads/${product.images[0]}`}
           className="w-full object-cover rounded-lg mb-4"
           alt={product.name}
         />

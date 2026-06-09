@@ -5,7 +5,7 @@ export default function ProtectedRoute({ children }) {
   const [status, setStatus] = useState("loading") // "loading" | "ok" | "unauthorized"
 
   useEffect(() => {
-    fetch("process.env.REACT_APP_API_URL/api/admin/me", {
+    fetch("${process.env.REACT_APP_API_URL}/api/admin/me", {
       credentials: "include"
     })
     .then(res => {
