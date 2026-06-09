@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { useParams, useNavigate } from "react-router-dom"
 
-const API_URL = "http://localhost:5000/api/products"
+const API_URL = "process.env.REACT_APP_API_URL/api/products"
 
 export default function EditProduct() {
   const { id } = useParams()
@@ -91,7 +91,7 @@ export default function EditProduct() {
       }
     })
 
-    const response = await fetch("http://localhost:5000/api/products", {
+    const response = await fetch("process.env.REACT_APP_API_URL/api/products", {
     method: "POST",
     credentials: "include",
     body: formData,
@@ -164,7 +164,7 @@ export default function EditProduct() {
                     <img
                       src={
                         img.type === "old"
-                          ? `http://localhost:5000/uploads/${img.filename}`
+                          ? `process.env.REACT_APP_API_URL/uploads/${img.filename}`
                           : img.preview
                       }
                       alt={`img-${index}`}

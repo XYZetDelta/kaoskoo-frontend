@@ -59,7 +59,7 @@ export default function AddProduct() {
       formData.append("image", file)
     })
 
-    const response = await fetch("http://localhost:5000/api/products", {
+    const response = await fetch("process.env.REACT_APP_API_URL/api/products", {
     method: "POST",
     credentials: "include",
     body: formData,

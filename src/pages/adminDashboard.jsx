@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 
-const API_URL = "http://localhost:5000/api/products"
+const API_URL = "process.env.REACT_APP_API_URL/api/products"
 
 export default function AdminDashboard() {
   const navigate = useNavigate()
@@ -10,7 +10,7 @@ export default function AdminDashboard() {
   const [totalPages, setTotalPages] = useState(1)
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/admin/me", {
+    fetch("process.env.REACT_APP_API_URL/api/admin/me", {
       credentials: "include"
     })
     .then(res => {
@@ -54,7 +54,7 @@ export default function AdminDashboard() {
   }
 
   async function logout() {
-    await fetch("http://localhost:5000/api/admin/logout", {
+    await fetch("process.env.REACT_APP_API_URL/api/admin/logout", {
       method: "POST",
       credentials: "include"
     })
@@ -101,7 +101,7 @@ export default function AdminDashboard() {
                 <td className="p-3 border">
                   {p.images && p.images.length > 0 ? (
                     <img
-                      src={`http://localhost:5000/uploads/${p.images[0]}`}
+                      src={`process.env.REACT_APP_API_URL/uploads/${p.images[0]}`}
                       alt={p.name}
                       className="w-16 h-16 object-cover mx-auto rounded"
                     />

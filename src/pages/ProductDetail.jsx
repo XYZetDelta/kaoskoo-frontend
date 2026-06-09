@@ -11,7 +11,7 @@ export default function ProductDetail() {
   const [activeIndex, setActiveIndex] = useState(0)
 
   async function loadProduct() {
-    const res = await fetch(`http://localhost:5000/api/products/${id}`)
+    const res = await fetch(`process.env.REACT_APP_API_URL/api/products/${id}`)
     const data = await res.json()
     setProduct(data)
   }
@@ -57,7 +57,7 @@ export default function ProductDetail() {
             {images.length > 0 ? (
               <>
                 <img
-                  src={`http://localhost:5000/uploads/${images[activeIndex]}`}
+                  src={`process.env.REACT_APP_API_URL/uploads/${images[activeIndex]}`}
                   className="w-full max-h-[400px] object-contain"
                   alt={product.name}
                 />
@@ -115,7 +115,7 @@ export default function ProductDetail() {
               {images.map((img, i) => (
                 <img
                   key={i}
-                  src={`http://localhost:5000/uploads/${img}`}
+                  src={`process.env.REACT_APP_API_URL/uploads/${img}`}
                   onClick={() => setActiveIndex(i)}
                   className={`w-14 h-14 object-cover rounded-lg cursor-pointer flex-shrink-0 transition-all ${
                     i === activeIndex
