@@ -9,6 +9,7 @@ export default function AdminDashboard() {
   const [currentPage, setCurrentPage] = useState(1)
   const [totalPages, setTotalPages] = useState(1)
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     fetch("process.env.REACT_APP_API_URL/api/admin/me", {
       credentials: "include"
